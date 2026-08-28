@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Foca Style — Jerseys de Fútbol Originales</title>
+<meta name="description" content="Playeras de fútbol de tus equipos favoritos: Liga MX, LaLiga, Premier League, Ligue 1 y MLS. Pedidos por WhatsApp, importación 10 a 15 días.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE FOCA STYLE — Design tokens
+   Concepto: "Cancha nocturna" — un estadio de noche, la luz de
+   los reflectores cayendo sobre la playera.
+   ============================================================ */
+:root{
+  --bg: #0B1F17;
+  --bg-soft: #0F281E;
+  --surface: #133226;
+  --surface-2: #1A4033;
+  --line: rgba(244,247,242,0.10);
+  --line-strong: rgba(244,247,242,0.18);
+  --chalk: #F4F7F2;
+  --muted: #9FB6AA;
+  --turf: #2E8B57;
+  --turf-bright: #46C583;
+  --flood: #F2C94C;
+  --flood-dim: #C79C2F;
+  --promo: #E8604B;
+  --shadow: 0 20px 45px rgba(0,0,0,0.45);
+  --radius: 14px;
+  --display: 'Anton', 'Arial Narrow', sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--chalk);
+  font-family:var(--body);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+::selection{background:var(--flood);color:var(--bg);}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;}
+@media(prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+}
+
+/* Background texture: subtle turf lines */
+.pitch-lines{
+  position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.05;
+  background-image: repeating-linear-gradient(180deg, transparent 0 78px, var(--chalk) 78px 79px);
+}
+
+/* ---------- Header ---------- */
+.announce{
+  background:var(--flood); color:var(--bg); text-align:center;
+  font-family:var(--mono); font-size:12.5px; letter-spacing:.04em;
+  padding:7px 12px; font-weight:700;
+}
+.site-header{
+  position:sticky; top:0; z-index:60;
+  background:rgba(11,31,23,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid var(--line);
+  transition: padding .25s ease, box-shadow .25s ease;
+}
+.site-header.scrolled{ box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.nav-wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 0; transition:padding .25s ease;
+}
+.site-header.scrolled .nav-wrap{ padding:10px 0; }
+.logo{
+  font-family:var(--display); font-size:26px; letter-spacing:.03em;
+  display:flex; align-items:baseline; gap:8px;
+}
+.logo span{ color:var(--flood); }
+.nav-links{ display:flex; gap:32px; font-weight:600; font-size:14.5px; }
+.nav-links a{ position:relative; padding:4px 0; color:var(--chalk); opacity:.85; transition:opacity .2s;}
+.nav-links a:hover{ opacity:1; }
+.nav-links a::after{
+  content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:var(--flood);
+  transition:width .25s ease;
+}
+.nav-links a:hover::after{ width:100%; }
+.nav-actions{ display:flex; align-items:center; gap:14px; }
+.icon-btn{
+  background:transparent; border:1px solid var(--line-strong); color:var(--chalk);
+  width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  position:relative; transition:border-color .2s, transform .2s;
+}
+.icon-btn:hover{ border-color:var(--flood); transform:translateY(-1px); }
+.cart-count{
+  position:absolute; top:-7px; right:-7px; background:var(--promo); color:#fff;
+  font-family:var(--mono); font-size:11px; font-weight:700; min-width:19px; height:19px;
+  border-radius:50%; display:flex; align-items:center; justify-content:center; padding:0 3px;
+}
+.burger{ display:none; }
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative; padding:96px 0 64px; overflow:hidden;
+  background:
+    radial-gradient(ellipse 900px 500px at 80% -10%, rgba(70,197,131,0.25), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 10% 110%, rgba(242,201,76,0.10), transparent 60%);
+}
+.hero-number{
+  position:absolute; right:-40px; top:-30px; font-family:var(--display);
+  font-size:min(46vw, 520px); line-height:1; color:transparent;
+  -webkit-text-stroke: 1.5px rgba(244,247,242,0.08);
+  user-select:none; z-index:0; pointer-events:none;
+}
+.hero-inner{ position:relative; z-index:1; display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12.5px;
+  color:var(--flood); border:1px solid rgba(242,201,76,0.35); background:rgba(242,201,76,0.08);
+  padding:6px 12px; border-radius:999px; margin-bottom:22px;
+}
+.eyebrow::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--flood); box-shadow:0 0 0 4px rgba(242,201,76,0.18); }
+.hero h1{
+  font-family:var(--display); font-weight:400; font-size:clamp(42px,6vw,76px);
+  line-height:0.98; letter-spacing:0.01em; margin:0 0 20px;
+  text-transform:uppercase;
+}
+.hero h1 em{ font-style:normal; color:var(--turf-bright); }
+.hero p{ font-size:17px; color:var(--muted); max-width:480px; line-height:1.6; margin-bottom:32px;}
+.hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
+.btn{
+  font-weight:700; font-size:14.5px; padding:15px 26px; border-radius:10px; border:none;
+  display:inline-flex; align-items:center; gap:8px; transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  letter-spacing:.02em;
+}
+.btn-primary{ background:var(--flood); color:var(--bg); box-shadow:0 10px 24px rgba(242,201,76,0.25); }
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 30px rgba(242,201,76,0.35); }
+.btn-ghost{ background:transparent; color:var(--chalk); border:1px solid var(--line-strong); }
+.btn-ghost:hover{ border-color:var(--chalk); transform:translateY(-2px); }
+
+/* jersey stack visual in hero */
+.hero-visual{ position:relative; height:420px; }
+.hero-card{
+  position:absolute; width:230px; border-radius:16px; overflow:hidden; box-shadow:var(--shadow);
+  border:1px solid var(--line-strong); background:var(--surface);
+  animation: floatY 5s ease-in-out infinite;
+}
+.hero-card img{ width:100%; height:280px; object-fit:cover; }
+.hero-card.c1{ top:0; left:10%; z-index:2; animation-delay:0s;}
+.hero-card.c2{ top:70px; left:46%; z-index:3; transform:rotate(4deg); animation-delay:.6s;}
+.hero-card.c3{ top:170px; left:2%; z-index:1; transform:rotate(-6deg); animation-delay:1.2s; opacity:.85;}
+@keyframes floatY{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-14px);} }
+.hero-card.c2{ animation-name: floatY2;}
+@keyframes floatY2{ 0%,100%{ transform:translateY(0) rotate(4deg);} 50%{ transform:translateY(-14px) rotate(4deg);} }
+.hero-card.c3{ animation-name: floatY3;}
+@keyframes floatY3{ 0%,100%{ transform:translateY(0) rotate(-6deg);} 50%{ transform:translateY(-10px) rotate(-6deg);} }
+
+/* marquee ticker */
+.ticker-wrap{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--surface); overflow:hidden; margin-top:64px;}
+.ticker{ display:flex; width:max-content; animation:scroll 26s linear infinite; }
+.ticker span{
+  font-family:var(--mono); font-size:13px; letter-spacing:.08em; color:var(--muted);
+  padding:14px 30px; white-space:nowrap; border-right:1px solid var(--line); text-transform:uppercase;
+}
+.ticker span b{ color:var(--flood); font-weight:700; }
+@keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+/* ---------- Trust strip ---------- */
+.trust-strip{ padding:44px 0; }
+.trust-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.trust-item{
+  background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px;
+  display:flex; align-items:center; gap:14px;
+}
+.trust-item .ic{ font-size:22px; }
+.trust-item h4{ margin:0 0 2px; font-size:14.5px; }
+.trust-item p{ margin:0; font-size:12.5px; color:var(--muted); }
+
+/* ---------- Section heading pattern ---------- */
+.section-head{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:30px; flex-wrap:wrap; gap:16px;}
+.section-head h2{ font-family:var(--display); font-size:clamp(28px,3.4vw,42px); text-transform:uppercase; margin:0; font-weight:400;}
+.section-head .tag{ font-family:var(--mono); font-size:12px; color:var(--flood); letter-spacing:.08em; text-transform:uppercase; display:block; margin-bottom:6px;}
+.section-head p.desc{ color:var(--muted); margin:0; max-width:420px; font-size:14.5px;}
+
+/* ---------- Featured / Novedades horizontal scroll ---------- */
+.featured{ padding:70px 0 10px; }
+.featured-scroll{ display:flex; gap:20px; overflow-x:auto; padding-bottom:14px; scroll-snap-type:x mandatory; }
+.featured-scroll::-webkit-scrollbar{ height:6px; }
+.featured-scroll::-webkit-scrollbar-thumb{ background:var(--surface-2); border-radius:10px; }
+.f-card{
+  min-width:270px; scroll-snap-align:start; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); overflow:hidden; position:relative; transition:transform .3s ease;
+}
+.f-card:hover{ transform:translateY(-6px); }
+.f-card img{ width:100%; height:320px; object-fit:cover; }
+.f-card .f-body{ padding:16px; }
+.f-card .f-league{ font-family:var(--mono); font-size:11px; color:var(--turf-bright); text-transform:uppercase; letter-spacing:.06em;}
+.f-card h3{ margin:6px 0 4px; font-size:16.5px; }
+.f-card .f-price{ font-family:var(--mono); color:var(--flood); font-weight:700; }
+.ribbon{
+  position:absolute; top:14px; left:-6px; background:var(--promo); color:#fff; font-size:11px; font-weight:700;
+  padding:5px 14px 5px 18px; font-family:var(--mono); letter-spacing:.04em; text-transform:uppercase;
+  clip-path: polygon(0 0,100% 0,92% 50%,100% 100%,0 100%);
+}
+
+/* ---------- Catalog ---------- */
+.catalog{ padding:80px 0 40px; position:relative; z-index:1; }
+.filters{
+  display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  margin-bottom:36px; position:sticky; top:73px; z-index:40; background:rgba(11,31,23,0.92);
+  backdrop-filter:blur(8px); padding:14px 0; border-bottom:1px solid var(--line);
+}
+.tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+.tab{
+  font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.03em;
+  padding:9px 16px; border-radius:999px; border:1px solid var(--line-strong); background:transparent; color:var(--muted);
+  transition:all .2s ease;
+}
+.tab:hover{ border-color:var(--turf-bright); color:var(--chalk); }
+.tab.active{ background:var(--turf-bright); color:var(--bg); border-color:var(--turf-bright); font-weight:700; }
+.search-box{ position:relative; }
+.search-box input{
+  background:var(--surface); border:1px solid var(--line-strong); color:var(--chalk);
+  padding:10px 14px 10px 38px; border-radius:10px; font-size:13.5px; width:220px; font-family:var(--body);
+}
+.search-box input:focus{ outline:none; border-color:var(--flood); }
+.search-box::before{
+  content:'⚲'; position:absolute; left:13px; top:50%; transform:translateY(-50%) scaleX(-1); color:var(--muted); font-size:14px;
+}
+.result-count{ font-family:var(--mono); font-size:12px; color:var(--muted); margin:-18px 0 22px; }
+
+.grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+  display:flex; flex-direction:column; position:relative;
+  opacity:0; transform:translateY(24px);
+  transition: transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s ease, border-color .35s ease;
+}
+.card.in-view{ opacity:1; transform:translateY(0); }
+.card:hover{ box-shadow:var(--shadow); border-color:var(--line-strong); transform:translateY(-6px); }
+.card-media{ position:relative; aspect-ratio:4/5; overflow:hidden; background:#0b1f17; cursor:pointer;}
+.card-media img{ width:100%; height:100%; object-fit:cover; transition:opacity .35s ease, transform .5s ease; }
+.card:hover .card-media img{ transform:scale(1.04); }
+.card-badge{
+  position:absolute; top:12px; left:12px; background:var(--flood); color:var(--bg); font-family:var(--mono);
+  font-size:10.5px; font-weight:700; padding:5px 10px; border-radius:6px; text-transform:uppercase; letter-spacing:.03em;
+}
+.gallery-hint{
+  position:absolute; bottom:10px; right:10px; background:rgba(11,31,23,0.75); color:var(--chalk);
+  font-family:var(--mono); font-size:10.5px; padding:5px 9px; border-radius:6px; opacity:0; transition:opacity .25s ease;
+  border:1px solid var(--line-strong);
+}
+.card-media:hover .gallery-hint{ opacity:1; }
+.card-body{ padding:18px; display:flex; flex-direction:column; gap:12px; flex:1; }
+.card-league{ font-family:var(--mono); font-size:10.5px; color:var(--turf-bright); text-transform:uppercase; letter-spacing:.06em; }
+.card-title{ font-size:16px; font-weight:700; margin:0; line-height:1.25; }
+.card-price{ font-family:var(--mono); font-size:19px; color:var(--flood); font-weight:700; }
+.card-row{ display:flex; gap:10px; }
+.select-size, .stepper{
+  background:var(--bg-soft); border:1px solid var(--line-strong); color:var(--chalk); border-radius:8px;
+  font-size:13px; font-family:var(--body);
+}
+.select-size{ flex:1; padding:9px 10px; }
+.select-size:focus{ outline:none; border-color:var(--flood); }
+.stepper{ display:flex; align-items:center; }
+.stepper button{ background:transparent; border:none; color:var(--chalk); width:30px; height:100%; font-size:15px; }
+.stepper span{ font-family:var(--mono); font-size:13px; min-width:20px; text-align:center; }
+.add-btn{
+  margin-top:auto; background:var(--turf-bright); color:#08150F; font-weight:800; padding:12px; border-radius:9px;
+  border:none; font-size:13.5px; letter-spacing:.02em; text-transform:uppercase; transition:background .2s, transform .15s;
+}
+.add-btn:hover{ background:#5CDA98; transform:translateY(-1px); }
+.add-btn.added{ background:var(--flood); }
+.empty-state{ text-align:center; padding:60px 20px; color:var(--muted); font-family:var(--mono); font-size:13.5px; }
+
+/* ---------- Promo banner ---------- */
+.promo-banner{
+  margin:90px 0; padding:56px 40px; border-radius:22px; position:relative; overflow:hidden;
+  background:linear-gradient(120deg, var(--turf) 0%, #1c5f3c 60%, var(--bg-soft) 100%);
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;
+}
+.promo-banner::before{
+  content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 40px);
+}
+.promo-banner *{ position:relative; z-index:1; }
+.promo-banner h3{ font-family:var(--display); font-size:clamp(24px,3vw,34px); margin:0 0 8px; text-transform:uppercase; }
+.promo-banner p{ margin:0; color:rgba(244,247,242,0.85); max-width:420px; font-size:14.5px; }
+
+/* ---------- Testimonials ---------- */
+.testimonials{ padding:60px 0 90px; }
+.quotes{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:50px; }
+.quote-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; }
+.stars{ color:var(--flood); letter-spacing:2px; font-size:14px; margin-bottom:10px; }
+.quote-card p{ font-size:14px; color:var(--chalk); line-height:1.55; margin:0 0 14px; }
+.quote-who{ font-family:var(--mono); font-size:12px; color:var(--muted); }
+#disqus_thread{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:24px; min-height:120px; }
+
+/* ---------- Footer ---------- */
+footer{ background:var(--bg-soft); border-top:1px solid var(--line); padding:64px 0 28px; }
+.footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:36px; margin-bottom:40px;}
+.footer-grid h5{ font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 16px; }
+.footer-grid ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; font-size:14px; }
+.footer-grid ul a:hover{ color:var(--flood); }
+.newsletter-form{ display:flex; gap:8px; margin-top:6px; }
+.newsletter-form input{ flex:1; padding:11px 12px; border-radius:8px; border:1px solid var(--line-strong); background:var(--surface); color:var(--chalk); font-size:13px;}
+.newsletter-form button{ background:var(--flood); color:var(--bg); border:none; padding:0 16px; border-radius:8px; font-weight:700; font-size:13px; }
+.pay-icons{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+.pay-icons span{ font-family:var(--mono); font-size:11px; border:1px solid var(--line-strong); padding:6px 10px; border-radius:6px; color:var(--muted);}
+.footer-bottom{ border-top:1px solid var(--line); padding-top:22px; display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); flex-wrap:wrap; gap:10px;}
+
+/* ---------- Cart Drawer ---------- */
+.overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:80;}
+.overlay.open{ opacity:1; pointer-events:auto; }
+.drawer{
+  position:fixed; top:0; right:0; height:100%; width:400px; max-width:92vw; background:var(--bg-soft);
+  border-left:1px solid var(--line-strong); z-index:90; transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.7,.3,1);
+  display:flex; flex-direction:column;
+}
+.drawer.open{ transform:translateX(0); }
+.drawer-head{ display:flex; justify-content:space-between; align-items:center; padding:22px; border-bottom:1px solid var(--line); }
+.drawer-head h3{ font-family:var(--display); margin:0; font-size:22px; text-transform:uppercase; }
+.close-btn{ background:transparent; border:none; color:var(--chalk); font-size:22px; }
+.drawer-items{ flex:1; overflow-y:auto; padding:16px 22px; display:flex; flex-direction:column; gap:14px; }
+.drawer-empty{ color:var(--muted); text-align:center; margin-top:60px; font-family:var(--mono); font-size:13px; }
+.drawer-item{ display:flex; gap:12px; border-bottom:1px solid var(--line); padding-bottom:14px; }
+.drawer-item img{ width:56px; height:70px; object-fit:cover; border-radius:6px; }
+.di-info{ flex:1; }
+.di-info h4{ margin:0 0 3px; font-size:13.5px; }
+.di-info p{ margin:0; font-size:12px; color:var(--muted); font-family:var(--mono); }
+.di-remove{ background:transparent; border:none; color:var(--promo); font-size:12px; font-family:var(--mono); text-decoration:underline; padding:0; margin-top:4px;}
+.drawer-foot{ padding:22px; border-top:1px solid var(--line); }
+.drawer-total{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:15px; margin-bottom:16px; }
+.whatsapp-btn{
+  width:100%; background:#25D366; color:#08150F; font-weight:800; padding:15px; border-radius:10px; border:none;
+  font-size:14.5px; display:flex; align-items:center; justify-content:center; gap:8px; transition:transform .2s;
+}
+.whatsapp-btn:hover{ transform:translateY(-2px); }
+.drawer-note{ font-size:11.5px; color:var(--muted); text-align:center; margin-top:10px; }
+
+/* ---------- Gallery modal ---------- */
+.modal{ position:fixed; inset:0; background:rgba(6,16,12,0.94); z-index:100; display:none; align-items:center; justify-content:center; padding:30px;}
+.modal.open{ display:flex; }
+.modal-inner{ max-width:640px; width:100%; text-align:center; }
+.modal-inner img{ width:100%; max-height:64vh; object-fit:contain; border-radius:12px; margin-bottom:16px; }
+.modal-controls{ display:flex; justify-content:space-between; align-items:center; }
+.modal-controls button{ background:var(--surface); border:1px solid var(--line-strong); color:var(--chalk); width:44px; height:44px; border-radius:50%; font-size:18px;}
+.modal-count{ font-family:var(--mono); font-size:13px; color:var(--muted); }
+.modal-close{ position:absolute; top:24px; right:28px; background:transparent; border:none; color:var(--chalk); font-size:28px;}
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--flood); color:var(--bg);
+  font-weight:700; font-size:13.5px; padding:13px 22px; border-radius:10px; z-index:120; opacity:0; pointer-events:none;
+  transition:all .3s ease; box-shadow:var(--shadow);
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ---------- Scroll reveal generic ---------- */
+.reveal{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.in-view{ opacity:1; transform:translateY(0); }
+
+/* ---------- Responsive ---------- */
+@media(max-width:1024px){
+  .hero-inner{ grid-template-columns:1fr; }
+  .hero-visual{ display:none; }
+  .grid{ grid-template-columns:repeat(2,1fr); }
+  .trust-grid{ grid-template-columns:repeat(2,1fr); }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+  .quotes{ grid-template-columns:1fr; }
+}
+@media(max-width:720px){
+  .nav-links{
+    position:fixed; top:0; right:0; height:100%; width:78%; background:var(--bg-soft);
+    flex-direction:column; padding:90px 30px; gap:22px; border-left:1px solid var(--line-strong);
+    transform:translateX(100%); transition:transform .3s ease; z-index:70; font-size:17px;
+  }
+  .nav-links.open{ transform:translateX(0); }
+  .burger{ display:flex; }
+  .search-box input{ width:150px; }
+  .filters{ top:64px; }
+  .grid{ grid-template-columns:1fr; }
+  .drawer{ width:100%; }
+}
+</style>
+</head>
+<body>
+<div class="pitch-lines"></div>
+
+<div class="announce">✈️ IMPORTACIÓN 10–15 DÍAS · ENVÍOS A TODO MÉXICO · PEDIDOS POR WHATSAPP</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="#" class="logo">THE FOCA<span>STYLE</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#novedades">Novedades</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#promos">Promos</a>
+      <a href="#opiniones">Opiniones</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="cartToggle" aria-label="Abrir carrito">
+        🛒<span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="icon-btn burger" id="burgerBtn" aria-label="Abrir menú">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-number">10</div>
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow">Temporada 26/27 disponible</span>
+      <h1>Viste la<br><em>pasión</em><br>del fútbol</h1>
+      <p>Jerseys oficiales de Liga MX y de las grandes ligas del mundo. Elige tu equipo, arma tu pedido y recíbelo directo con nosotros — todo por WhatsApp.</p>
+      <div class="hero-ctas">
+        <a href="#catalogo" class="btn btn-primary">Ver catálogo ⚽</a>
+        <a href="#novedades" class="btn btn-ghost">Novedades de la semana</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card c3"><img src="img/BarcelonaAL_Principal.jpeg" alt="Jersey Barcelona"></div>
+      <div class="hero-card c1"><img src="img/Real_Principal.jpeg" alt="Jersey Real Madrid"></div>
+      <div class="hero-card c2"><img src="img/Miami_Principal.jpeg" alt="Jersey Inter Miami"></div>
+    </div>
+  </div>
+  <div class="ticker-wrap">
+    <div class="ticker" id="ticker"></div>
+  </div>
+</section>
+
+<section class="trust-strip container">
+  <div class="trust-grid">
+    <div class="trust-item"><span class="ic">✈️</span><div><h4>Importación 10–15 días</h4><p>Pedido bajo demanda</p></div></div>
+    <div class="trust-item"><span class="ic">💬</span><div><h4>Pedido por WhatsApp</h4><p>Directo y sin vueltas</p></div></div>
+    <div class="trust-item"><span class="ic">📦</span><div><h4>Envíos a todo México</h4><p>Seguimiento incluido</p></div></div>
+    <div class="trust-item"><span class="ic">⭐</span><div><h4>Calidad premium</h4><p>Tela y bordados originales</p></div></div>
+  </div>
+</section>
+
+<section class="featured container" id="novedades">
+  <div class="section-head reveal">
+    <div>
+      <span class="tag">Recién llegados</span>
+      <h2>Novedades</h2>
+    </div>
+    <p class="desc">Lo más pedido de esta semana — de la cancha directo a tu clóset.</p>
+  </div>
+  <div class="featured-scroll" id="featuredScroll"></div>
+</section>
+
+<section class="catalog container" id="catalogo">
+  <div class="section-head reveal">
+    <div>
+      <span class="tag">Catálogo completo</span>
+      <h2>Elige tu equipo</h2>
+    </div>
+    <p class="desc">Liga MX, LaLiga, Premier League, Ligue 1 y MLS — todas las playeras a $500 MXN en adelante.</p>
+  </div>
+  <div class="filters">
+    <div class="tabs" id="tabs"></div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Buscar equipo...">
+    </div>
+  </div>
+  <p class="result-count" id="resultCount"></p>
+  <div class="grid" id="productGrid"></div>
+  
+  <!-- NUEVO: BANNER DE BÚSQUEDA Y TIEMPOS DE ENTREGA -->
+  <div class="mt-5 text-center p-5 reveal" style="background: var(--surface-2); border: 1px dashed var(--flood); border-radius: var(--radius);">
+    <h3 style="color: var(--flood); margin-top:0; font-family: var(--display); font-size: 28px; letter-spacing: 0.05em; text-transform: uppercase;">¿No encuentras el jersey que buscas?</h3>
+    <p style="color: var(--muted); font-size: 15.5px; max-width: 600px; margin: 0 auto 20px; line-height: 1.6;">
+      Manejamos cientos de equipos, ediciones retro y versiones de jugador. Si buscas alguna playera en específico, mándanos mensaje y te la conseguimos.<br><br>
+      <span style="color: var(--chalk); font-weight: 600; padding: 6px 12px; background: rgba(0,0,0,0.2); border-radius: 6px;">✈️ IMPORTANTE: Todos nuestros pedidos son de importación y llegan directo a Gómez Palacio, La Laguna y todo México de 10 a 15 días hábiles.</span>
+    </p>
+    <button onclick="window.open('https://wa.me/528715720056?text=Hola,%20estoy%20buscando%20un%20jersey%20en%20específico,%20¿me%20pueden%20ayudar?', '_blank')" class="btn btn-ghost" style="border-color: var(--flood); color: var(--flood);">
+      📲 Preguntar disponibilidad por WhatsApp
+    </button>
+  </div>
+  
+</section>
+
+<section class="promo-banner container" id="promos">
+  <div>
+    <h3>¿Pides 2 o más? Lo mandamos junto y ahorras en envío</h3>
+    <p>Arma tu pedido en el carrito, elige tallas para cada quien y mándanos todo en un solo mensaje de WhatsApp.</p>
+  </div>
+  <a href="#catalogo" class="btn btn-primary">Armar mi pedido</a>
+</section>
+
+<section class="testimonials container" id="opiniones">
+  <div class="section-head reveal">
+    <div>
+      <span class="tag">Comunidad Foca</span>
+      <h2>Lo que dicen de nosotros</h2>
+    </div>
+  </div>
+  <div class="quotes">
+    <div class="quote-card reveal"><div class="stars">★★★★★</div><p>Pedí la de Cruz Azul y llegó justo como en las fotos. Talla perfecta y bordado de calidad.</p><div class="quote-who">— Cliente verificado, Torreón</div></div>
+    <div class="quote-card reveal"><div class="stars">★★★★★</div><p>Rápida respuesta por WhatsApp y me ayudaron a elegir mi talla. Ya voy en mi tercer jersey.</p><div class="quote-who">— Cliente verificado, Gómez Palacio</div></div>
+    <div class="quote-card reveal"><div class="stars">★★★★☆</div><p>Buena tela y buen precio. El tiempo de importación se cumplió tal cual me dijeron.</p><div class="quote-who">— Cliente verificado, Durango</div></div>
+  </div>
+  
+  <!-- CONTENEDOR DISQUS -->
+  <div id="disqus_thread"></div>
+  
+</section>
+
+<footer id="contacto">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h5>The Foca Style</h5>
+        <p style="color:var(--muted); font-size:14px; max-width:280px; line-height:1.6;">Jerseys de fútbol premium para quienes viven el juego dentro y fuera de la cancha.</p>
+        <div class="pay-icons">
+          <span>Transferencia</span><span>Efectivo</span><span>Tarjeta</span>
+        </div>
+      </div>
+      <div>
+        <h5>Navegación</h5>
+        <ul><li><a href="#novedades">Novedades</a></li><li><a href="#catalogo">Catálogo</a></li><li><a href="#promos">Promos</a></li><li><a href="#opiniones">Opiniones</a></li></ul>
+      </div>
+      <div>
+        <h5>Ayuda</h5>
+        <ul><li><a href="#">Guía de tallas</a></li><li><a href="#">Tiempos de envío</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
+      </div>
+      <div>
+        <h5>Entérate primero</h5>
+        <p style="color:var(--muted); font-size:13px;">Novedades y restocks por WhatsApp o correo.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('¡Gracias! Te avisamos de las novedades.');">
+          <input type="email" placeholder="tu@correo.com" required>
+          <button type="submit">Unirme</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Foca Style. Todos los derechos reservados.</span>
+      <span>Hecho con pasión por el fútbol ⚽</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-head">
+    <h3>Tu pedido</h3>
+    <button class="close-btn" id="closeCart">✕</button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot">
+    <div class="drawer-total"><span>Total</span><span id="drawerTotal">$0 MXN</span></div>
+    <button class="whatsapp-btn" id="sendWhatsapp">📲 Enviar pedido por WhatsApp</button>
+    <p class="drawer-note">Importación 10–15 días · Te confirmamos disponibilidad y forma de pago por WhatsApp.</p>
+  </div>
+</aside>
+
+<!-- Gallery modal -->
+<div class="modal" id="galleryModal">
+  <button class="modal-close" id="modalClose">✕</button>
+  <div class="modal-inner">
+    <img id="modalImg" src="" alt="">
+    <div class="modal-controls">
+      <button id="modalPrev">‹</button>
+      <span class="modal-count" id="modalCount"></span>
+      <button id="modalNext">›</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- SCRIPT DE DISQUS -->
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://thefocastyle.com";
+    this.page.identifier = "catalogo_foca";
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://thefocastyle.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+<script>
+/* ============================================================
+   DATA — un solo lugar para agregar/editar productos.
+   ============================================================ */
+const WHATSAPP_NUMBER = "528715720056";
+
+const PRODUCTS = [
+  {id:'cruzazul-local', name:'Cruz Azul Local 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'Cruz azul', gallery:[1,2,3,4,5,16,7,8], badge:'Más vendido', featured:true},
+  {id:'cruzazul-visitante', name:'Cruz Azul Visitante 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'CruzazulV', gallery:[1,2,3,4,5,6,7,8,9]},
+  {id:'toluca-local', name:'Toluca Local 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'Toluca', gallery:[1,2,3,4,5,6,7]},
+  {id:'toluca-visitante', name:'Toluca Visitante 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'TolucaV', gallery:[1,2,3,4,5,6,7,8,9]},
+  {id:'chivas-local', name:'Chivas Local 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'Chivas', gallery:[1,2,3,4,5,6,7,8,9,10]},
+  {id:'chivas-visitante', name:'Chivas Visitante 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'ChivasV', gallery:[1,2,3,4,5,6,7,8,9]},
+  {id:'america-local', name:'América Local 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'America', gallery:[1,2,3,4,5,6,7,8,9]},
+  {id:'america-visitante', name:'América Visitante 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'AmericaV', gallery:[1,2,3,4,5,6,7,8,9,10]},
+  {id:'pumas-local', name:'Pumas Local 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'Pumas', gallery:[1,2,3,4,5,6,7,8,9,10]},
+  {id:'pumas-visitante', name:'Pumas Visitante 26/27', league:'Liga MX', leagueSlug:'ligamx', price:500, slug:'PumasV', gallery:[1,2,3,4,5,6,7,8,9,10,11,12]},
+  {id:'real-local', name:'Real Madrid Local 26/27', league:'LaLiga', leagueSlug:'laliga', price:500, slug:'Real', gallery:[1,2,3,4,5,6,7,8,9,10,11], badge:'Nuevo', featured:true},
+  {id:'real-visitante', name:'Real Madrid Visitante 26/27', league:'LaLiga', leagueSlug:'laliga', price:500, slug:'RealV', gallery:[1,2,3,4,5,6,7]},
+  {id:'real-alterna', name:'Real Madrid Alterna 26/27', league:'LaLiga', leagueSlug:'laliga', price:500, slug:'RealAL', gallery:[1]},
+  {id:'barcelona-local', name:'Barcelona Local 26/27', league:'LaLiga', leagueSlug:'laliga', price:500, slug:'Barcelona', gallery:[1,2,3,4,5,6,7,8], featured:true},
+  {id:'barcelona-visitante', name:'Barcelona Visitante 26/27', league:'LaLiga', leagueSlug:'laliga', price:500, slug:'BarcelonaV', gallery:[1,2,3,4,5,6,7,8,9,10,11], badge:'Nuevo'},
+  {id:'barcelona-alterna', name:'Barcelona Alternativa 26/27', league:'LaLiga', leagueSlug:'laliga', price:500, slug:'BarcelonaAL', gallery:[1,2,3,4,5,6,7,8,9,10,11]},
+  {id:'city-local', name:'Man. City Local 26/27', league:'Premier League', leagueSlug:'premier', price:500, slug:'City', gallery:[1,2,3,4]},
+  {id:'city-visitante', name:'Man. City Visitante 26/27', league:'Premier League', leagueSlug:'premier', price:500, slug:'CityV', gallery:[1,2,3,4,5,6,7,8,9]},
+  {id:'psg-local', name:'PSG Local 26/27', league:'Ligue 1', leagueSlug:'ligue1', price:500, slug:'Psg', gallery:[1,2,3,4,5,6,7,8]},
+  {id:'psg-visitante', name:'PSG Visitante 26/27', league:'Ligue 1', leagueSlug:'ligue1', price:500, slug:'PsgV', gallery:[1,2,3,4,5,6,7]},
+  {id:'miami-local', name:'Inter Miami Local 26/27', league:'MLS', leagueSlug:'mls', price:500, slug:'Miami', gallery:[1,2,3,4,5,6,7,8,9,10], badge:'Tendencia', featured:true},
+  {id:'miami-visitante', name:'Inter Miami Visitante 26/27', league:'MLS', leagueSlug:'mls', price:500, slug:'MiamiV', gallery:[1,2,3,4,5,6,7,8,9,10]},
+];
+
+const LEAGUES = [
+  {slug:'todos', label:'Todos'},
+  {slug:'ligamx', label:'Liga MX'},
+  {slug:'laliga', label:'LaLiga'},
+  {slug:'premier', label:'Premier League'},
+  {slug:'ligue1', label:'Ligue 1'},
+  {slug:'mls', label:'MLS'},
+];
+
+function principalSrc(p){ return `img/${p.slug}_Principal.jpeg`; }
+function gallerySrc(p, n){ return `img/${p.slug}${n}.jpeg`; }
+function fullGallery(p){ return [principalSrc(p), ...p.gallery.map(n => gallerySrc(p, n))]; }
+function money(n){ return `$${n.toLocaleString('es-MX')} MXN`; }
+
+/* ---------------- State ---------------- */
+let activeLeague = 'todos';
+let searchTerm = '';
+let cart = []; // {id, name, size, qty, price, img}
+
+/* ---------------- Ticker ---------------- */
+const tickerEl = document.getElementById('ticker');
+const tickerTeams = [...new Set(PRODUCTS.map(p => p.name.replace(/ (Local|Visitante|Alterna|Alternativa) 26\/27/, '')))];
+const tickerHTML = tickerTeams.map(t => `<span><b>⚽</b> ${t}</span>`).join('');
+tickerEl.innerHTML = tickerHTML + tickerHTML; // duplicate for seamless loop
+
+/* ---------------- Featured ---------------- */
+const featuredScroll = document.getElementById('featuredScroll');
+featuredScroll.innerHTML = PRODUCTS.filter(p => p.featured).map(p => `
+  <div class="f-card" data-open="${p.id}">
+    ${p.badge ? `<span class="ribbon">${p.badge}</span>` : ''}
+    <img src="${principalSrc(p)}" alt="${p.name}" loading="lazy">
+    <div class="f-body">
+      <span class="f-league">${p.league}</span>
+      <h3>${p.name}</h3>
+      <span class="f-price">${money(p.price)}</span>
+    </div>
+  </div>
+`).join('');
+
+/* ---------------- Tabs ---------------- */
+const tabsEl = document.getElementById('tabs');
+tabsEl.innerHTML = LEAGUES.map(l => `<button class="tab ${l.slug==='todos'?'active':''}" data-league="${l.slug}">${l.label}</button>`).join('');
+tabsEl.addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if(!btn) return;
+  activeLeague = btn.dataset.league;
+  [...tabsEl.children].forEach(b => b.classList.toggle('active', b === btn));
+  renderGrid();
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.trim().toLowerCase();
+  renderGrid();
+});
+
+/* ---------------- Grid render ---------------- */
+const gridEl = document.getElementById('productGrid');
+const resultCountEl = document.getElementById('resultCount');
+
+function renderGrid(){
+  const filtered = PRODUCTS.filter(p => {
+    const matchesLeague = activeLeague === 'todos' || p.leagueSlug === activeLeague;
+    const matchesSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm);
+    return matchesLeague && matchesSearch;
+  });
+
+  resultCountEl.textContent = `${filtered.length} jersey${filtered.length === 1 ? '' : 's'} encontrado${filtered.length === 1 ? '' : 's'}`;
+
+  if(filtered.length === 0){
+    gridEl.innerHTML = `<div class="empty-state">No encontramos jerseys con ese filtro. Prueba con otro equipo.</div>`;
+    return;
+  }
+
+  gridEl.innerHTML = filtered.map(p => `
+    <article class="card" data-id="${p.id}">
+      ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
+      <div class="card-media" data-open="${p.id}">
+        <img src="${principalSrc(p)}" data-hover="${p.gallery.length ? gallerySrc(p, p.gallery[0]) : ''}" data-main="${principalSrc(p)}" alt="${p.name}" loading="lazy">
+        <span class="gallery-hint">🔍 Ver ${p.gallery.length + 1} fotos</span>
+      </div>
+      <div class="card-body">
+        <span class="card-league">${p.league}</span>
+        <h3 class="card-title">${p.name}</h3>
+        <span class="card-price">${money(p.price)}</span>
+        <div class="card-row">
+          <select class="select-size">
+            <option value="S">Talla S</option>
+            <option value="M" selected>Talla M</option>
+            <option value="L">Talla L</option>
+            <option value="XL">Talla XL</option>
+            <option value="2XL">Talla 2XL</option>
+            <option value="3XL">Talla 3XL</option>
+            <option value="4XL">Talla 4XL</option>
+          </select>
+          <div class="stepper">
+            <button type="button" data-step="-1">−</button>
+            <span data-qty>1</span>
+            <button type="button" data-step="1">+</button>
+          </div>
+        </div>
+        <button class="add-btn" data-add="${p.id}">Agregar al pedido</button>
+      </div>
+    </article>
+  `).join('');
+
+  observeReveal();
+}
+
+/* Card interactions (delegated) */
+gridEl.addEventListener('click', e => {
+  const stepBtn = e.target.closest('[data-step]');
+  if(stepBtn){
+    const qtyEl = stepBtn.parentElement.querySelector('[data-qty]');
+    let qty = parseInt(qtyEl.textContent, 10);
+    qty = Math.max(1, qty + parseInt(stepBtn.dataset.step, 10));
+    qtyEl.textContent = qty;
+    return;
+  }
+  const openTarget = e.target.closest('[data-open]');
+  if(openTarget && !e.target.closest('[data-add]')){
+    openGallery(openTarget.dataset.open);
+    return;
+  }
+  const addBtn = e.target.closest('[data-add]');
+  if(addBtn){
+    const card = addBtn.closest('.card');
+    const product = PRODUCTS.find(p => p.id === addBtn.dataset.add);
+    const size = card.querySelector('.select-size').value;
+    const qty = parseInt(card.querySelector('[data-qty]').textContent, 10);
+    addToCart(product, size, qty);
+    addBtn.textContent = '✓ Agregado';
+    addBtn.classList.add('added');
+    setTimeout(() => { addBtn.textContent = 'Agregar al pedido'; addBtn.classList.remove('added'); }, 1400);
+  }
+});
+
+gridEl.addEventListener('mouseover', e => {
+  const media = e.target.closest('.card-media img');
+  if(media && media.dataset.hover){ media.src = media.dataset.hover; }
+});
+gridEl.addEventListener('mouseout', e => {
+  const media = e.target.closest('.card-media img');
+  if(media && media.dataset.main){ media.src = media.dataset.main; }
+});
+
+featuredScroll.addEventListener('click', e => {
+  const card = e.target.closest('[data-open]');
+  if(card) openGallery(card.dataset.open);
+});
+
+/* ---------------- Cart ---------------- */
+const cartCountEl = document.getElementById('cartCount');
+const drawerItemsEl = document.getElementById('drawerItems');
+const drawerTotalEl = document.getElementById('drawerTotal');
+const cartDrawer = document.getElementById('cartDrawer');
+const overlay = document.getElementById('overlay');
+
+function addToCart(product, size, qty){
+  const existing = cart.find(i => i.id === product.id && i.size === size);
+  if(existing){ existing.qty += qty; }
+  else { cart.push({id: product.id, name: product.name, size, qty, price: product.price, img: principalSrc(product)}); }
+  renderCart();
+  showToast(`${product.name} (${size}) agregado al pedido`);
+  openCart();
+}
+
+function removeFromCart(index){
+  cart.splice(index, 1);
+  renderCart();
+}
+
+function renderCart(){
+  const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
+  cartCountEl.textContent = totalItems;
+
+  if(cart.length === 0){
+    drawerItemsEl.innerHTML = `<div class="drawer-empty">Tu carrito está vacío.<br>Agrega tu primer jersey desde el catálogo.</div>`;
+  } else {
+    drawerItemsEl.innerHTML = cart.map((item, i) => `
+      <div class="drawer-item">
+        <img src="${item.img}" alt="${item.name}">
+        <div class="di-info">
+          <h4>${item.name}</h4>
+          <p>Talla ${item.size} · Cant. ${item.qty} · ${money(item.price * item.qty)}</p>
+          <button class="di-remove" data-remove="${i}">Quitar</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  drawerTotalEl.textContent = money(total);
+}
+
+drawerItemsEl.addEventListener('click', e => {
+  const btn = e.target.closest('[data-remove]');
+  if(btn) removeFromCart(parseInt(btn.dataset.remove, 10));
+});
+
+function openCart(){ cartDrawer.classList.add('open'); overlay.classList.add('open'); }
+function closeCart(){ cartDrawer.classList.remove('open'); overlay.classList.remove('open'); }
+document.getElementById('cartToggle').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCart);
+overlay.addEventListener('click', () => { closeCart(); closeGallery(); });
+
+document.getElementById('sendWhatsapp').addEventListener('click', () => {
+  if(cart.length === 0){ showToast('Agrega al menos un jersey antes de enviar tu pedido.'); return; }
+  const lines = cart.map(i => `• ${i.name} — Talla ${i.size} — Cant. ${i.qty}`);
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const message = `Hola, quiero hacer el siguiente pedido de importación (10-15 días):\n\n${lines.join('\n')}\n\nTotal aproximado: ${money(total)}\n\n¿Me confirman disponibilidad y forma de pago?`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+});
+
+/* ---------------- Gallery modal ---------------- */
+const galleryModal = document.getElementById('galleryModal');
+const modalImg = document.getElementById('modalImg');
+const modalCount = document.getElementById('modalCount');
+let currentGallery = [];
+let currentIndex = 0;
+
+function openGallery(productId){
+  const product = PRODUCTS.find(p => p.id === productId);
+  currentGallery = fullGallery(product);
+  currentIndex = 0;
+  updateModal();
+  galleryModal.classList.add('open');
+}
+function updateModal(){
+  modalImg.src = currentGallery[currentIndex];
+  modalCount.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+}
+function closeGallery(){ galleryModal.classList.remove('open'); }
+document.getElementById('modalClose').addEventListener('click', closeGallery);
+document.getElementById('modalPrev').addEventListener('click', () => { currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length; updateModal(); });
+document.getElementById('modalNext').addEventListener('click', () => { currentIndex = (currentIndex + 1) % currentGallery.length; updateModal(); });
+document.addEventListener('keydown', e => {
+  if(!galleryModal.classList.contains('open')) return;
+  if(e.key === 'Escape') closeGallery();
+  if(e.key === 'ArrowLeft') document.getElementById('modalPrev').click();
+  if(e.key === 'ArrowRight') document.getElementById('modalNext').click();
+});
+
+/* ---------------- Toast ---------------- */
+const toastEl = document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  clearTimeout(toastTimer);
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2600);
+}
+
+/* ---------------- Mobile menu ---------------- */
+const navLinks = document.getElementById('navLinks');
+document.getElementById('burgerBtn').addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.addEventListener('click', e => { if(e.target.tagName === 'A') navLinks.classList.remove('open'); });
+
+/* ---------------- Sticky header shrink ---------------- */
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+}, {passive:true});
+
+/* ---------------- Scroll reveal ---------------- */
+function observeReveal(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+    });
+  }, {threshold:0.12});
+  document.querySelectorAll('.card:not(.in-view), .reveal:not(.in-view)').forEach(el => io.observe(el));
+}
+
+/* ---------------- Init ---------------- */
+renderGrid();
+renderCart();
+observeReveal();
+</script>
+</body>
+</html>
