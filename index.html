@@ -425,9 +425,9 @@ footer{ background:var(--bg-soft); border-top:1px solid var(--line); padding:64p
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-card c3"><img src="img/BarcelonaAL_Principal.jpeg" alt="Jersey Barcelona"></div>
-      <div class="hero-card c1"><img src="img/Real_Principal.jpeg" alt="Jersey Real Madrid"></div>
-      <div class="hero-card c2"><img src="img/Miami_Principal.jpeg" alt="Jersey Inter Miami"></div>
+      <div class="hero-card c3"><img src="img/img/BarcelonaAL_Principal.jpeg" alt="Jersey Barcelona"></div>
+      <div class="hero-card c1"><img src="img/img/Real_Principal.jpeg" alt="Jersey Real Madrid"></div>
+      <div class="hero-card c2"><img src="img/img/Miami_Principal.jpeg" alt="Jersey Inter Miami"></div>
     </div>
   </div>
   <div class="ticker-wrap">
@@ -630,8 +630,8 @@ const LEAGUES = [
   {slug:'mls', label:'MLS'},
 ];
 
-function principalSrc(p){ return `img/${p.slug}_Principal.jpeg`; }
-function gallerySrc(p, n){ return `img/${p.slug}${n}.jpeg`; }
+function principalSrc(p){ return `img/img/${p.slug}_Principal.jpeg`; }
+function gallerySrc(p, n){ return `img/img/${p.slug}${n}.jpeg`; }
 function fullGallery(p){ return [principalSrc(p), ...p.gallery.map(n => gallerySrc(p, n))]; }
 function money(n){ return `$${n.toLocaleString('es-MX')} MXN`; }
 
